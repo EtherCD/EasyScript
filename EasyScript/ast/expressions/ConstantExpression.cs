@@ -15,11 +15,11 @@ namespace EasyScript.ast.expressions
         public ConstantExpression(string name)
         {
             this.name = name;
+            if (!Variables.isExists(name)) throw new Exception("Constant does not exists");
         }
 
         public Value eval()
         {
-            if (!Variables.isExists(name)) throw new Exception("Constant does not exists");
             return Variables.get(name);
         }
     }

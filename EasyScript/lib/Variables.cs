@@ -11,6 +11,21 @@ namespace EasyScript.lib
     {
         private static Dictionary<String, VarHandler> variables = new Dictionary<String, VarHandler>();
 
+        public static void Set(Dictionary<String, VarHandler> vars)
+        {
+            variables = vars;
+        }
+
+        public static Dictionary<String, VarHandler> Get()
+        {
+            return variables;
+        }
+
+        public static void Clear()
+        {
+            variables.Clear();
+        }
+
         public static bool isExists(String key)
         {
             return variables.ContainsKey(key);
@@ -45,6 +60,19 @@ namespace EasyScript.lib
                 return 2;
             }
             variables[key].setValue(value);
+            return 0;
+        }
+
+        public static int Attempt(String key)
+        {
+            if (!isExists(key))
+            {
+                return 1;
+            }
+            else if (!variables[key].getOverwrite())
+            {
+                return 2;
+            }
             return 0;
         }
     }

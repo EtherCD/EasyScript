@@ -18,15 +18,16 @@ namespace EasyScript.ast.statements
         {
             this.var = var;
             this.expression = expression;
+            if (Variables.isExists(var))
+            {
+                throw new Exception("Attempt to create an existing variable");
+            }
         }
 
         public void execute()
         {
             Value result = expression.eval();
-            if (!Variables.set(var, result, false))
-            {
-                throw new Exception("Attempt to create an existing variable");
-            }
+            Variables.set(var, result, false);
         }
     }
 }

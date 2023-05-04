@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ast\expressions\BinaryExpression.cs" />
+    <Compile Include="ast\expressions\BooleanExpression.cs" />
     <Compile Include="ast\expressions\ConditionalExpression.cs" />
     <Compile Include="ast\expressions\ConstantExpression.cs" />
     <Compile Include="ast\expressions\Expression.cs" />
@@ -51,12 +52,15 @@
     <Compile Include="ast\expressions\StringExpression.cs" />
     <Compile Include="ast\expressions\UnaryExpression.cs" />
     <Compile Include="ast\statements\AssignementStatement.cs" />
+    <Compile Include="ast\statements\BlockStatement.cs" />
     <Compile Include="ast\statements\ConstStatement.cs" />
     <Compile Include="ast\statements\EvalStatement.cs" />
     <Compile Include="ast\statements\IfStatement.cs" />
+    <Compile Include="ast\statements\LoadScriptStatement.cs" />
     <Compile Include="ast\statements\PrintStatement.cs" />
     <Compile Include="ast\statements\Statement.cs" />
     <Compile Include="ast\statements\VarStatement.cs" />
+    <Compile Include="ast\statements\WhileStatement.cs" />
     <Compile Include="ast\values\BooleanValue.cs" />
     <Compile Include="ast\values\NumberValue.cs" />
     <Compile Include="ast\values\StringValue.cs" />
@@ -64,6 +68,8 @@
     <Compile Include="lexer\Lexer.cs" />
     <Compile Include="lexer\Token.cs" />
     <Compile Include="lexer\TokenType.cs" />
+    <Compile Include="lib\LexeError.cs" />
+    <Compile Include="lib\ParseError.cs" />
     <Compile Include="lib\VarHandler.cs" />
     <Compile Include="lib\Variables.cs" />
     <Compile Include="parser\Parser.cs" />

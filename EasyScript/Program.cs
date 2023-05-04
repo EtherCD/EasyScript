@@ -16,8 +16,8 @@ namespace EasyScript
         public static void Eval(String code)
         {
             List<Token> tokens = new Lexer(code).Tokenize();
-            List<Statement> three = new Parser(tokens).parse();
-            three.ForEach(item => item.execute());
+            BlockStatement three = new Parser(tokens).parse();
+            three.execute();
         }
 
         static void Main(string[] args)

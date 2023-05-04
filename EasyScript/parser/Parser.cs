@@ -1,8 +1,10 @@
 ﻿using EasyScript.ast.expressions;
 using EasyScript.ast.statements;
 using EasyScript.lexer;
+using EasyScript.lib;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +26,62 @@ namespace EasyScript.parser
             this.Size = Tokens.Count;
         }
 
-        public List<Statement> parse()
+        private void ErrorHandler(ParseError e)
         {
-            List<Statement> result = new List<Statement>();
-            while (!match(TokenType.EOF))
+            String buffer = "!| Error |!\n";
+            buffer += $"On line: {e.Token.Column}\n";
+            buffer += e.Token.LineText + '\n';
+            for (int i = 0; i < e.Token.startPos; i++)
             {
-                result.Add(statement());
+                buffer += " ";
             }
-            return result;
+            for (int i = 0; i < Math.Abs(e.Token.endPos - e.Token.startPos); i++)
+            {
+                buffer += "^";
+            }
+            buffer += $"\nException: {e.Message}";
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(buffer);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public BlockStatement parse()
+        {
+            try
+            {
+                BlockStatement result = new BlockStatement();
+
+                while (!match(TokenType.EOF))
+                {
+                    result.AddStatement(statement());
+                }
+                return result;
+            }
+            catch (ParseError e) {
+                ErrorHandler(e);
+                return new BlockStatement();
+            }
+        }
+
+        private Statement block()
+        {
+            BlockStatement block = new BlockStatement();
+            consume(TokenType.LBRACE);
+            while (!match(TokenType.RBRACE))
+            {
+                block.AddStatement(statement());
+            }
+            return block;
+        }
+
+        private Statement statementOrBlock()
+        {
+            if (get(0).getType() == TokenType.LBRACE)
+            {
+                return block();
+            }
+            return statement();
         }
 
         private Statement statement()
@@ -44,21 +94,36 @@ namespace EasyScript.parser
             {
                 return new EvalStatement(expression());
             }
+            if (match(TokenType.LOADSCRIPT))
+            {
+                return new LoadScriptStatement(expression());
+            }
             if (match(TokenType.IF))
             {
                 return ifElse();
             }
+            if (match(TokenType.WHILE))
+            {
+                return whileStatement();
+            }
             return assignmentStatement();
+        }
+
+        private Statement whileStatement()
+        {
+            Expression condition = conditional();
+            Statement statmnt = statementOrBlock();
+            return new WhileStatement(condition, statmnt);
         }
 
         private Statement ifElse()
         {
             Expression condition = conditional();
-            Statement ifStatement = statement();
+            Statement ifStatement = statementOrBlock();
             Statement elseStatement;
             if (match(TokenType.ELSE))
             {
-                elseStatement = statement();
+                elseStatement = statementOrBlock();
             }
             else
             {
@@ -74,23 +139,44 @@ namespace EasyScript.parser
             {
                 String variable = current.getValue();
                 consume(TokenType.EQ);
-                return new AssignementStatement(variable, expression());
+                try
+                {
+                    return new AssignementStatement(variable, expression());
+                }
+                catch (Exception e)
+                {
+                    throw new ParseError(e.Message, current);
+                }
             }
             if (match(TokenType.VAR) && get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
                 String variable = get(0).getValue();
                 consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                return new VarStatement(variable, expression());
+                try
+                {
+                    return new VarStatement(variable, expression());
+                }
+                catch (Exception e)
+                {
+                    throw new ParseError(e.Message, current);
+                }
             }
             if (match(TokenType.CONST) && get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
                 String variable = get(0).getValue();
                 consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                return new ConstStatement(variable, expression());
+                try
+                {
+                    return new ConstStatement(variable, expression());
+                }
+                catch (Exception e)
+                {
+                    throw new ParseError(e.Message, current);
+                }
             }
-            throw new Exception("Unknown Statement");
+            throw new ParseError("Unknown Statement", current);
         }
 
         private Expression expression()
@@ -198,9 +284,7 @@ namespace EasyScript.parser
             Token current = get(0);
             if (match(TokenType.NUMBER))
             {
-                int val;
-                int.TryParse(current.getValue(), out val);
-                return new NumberExpression(val);
+                return new NumberExpression((double)float.Parse(current.getValue(), CultureInfo.InvariantCulture));
             }
             if (match(TokenType.TEXT))
             {
@@ -208,7 +292,18 @@ namespace EasyScript.parser
             }
             if (match(TokenType.WORD))
             {
-                return new ConstantExpression(current.getValue());
+                try
+                {
+                    return new ConstantExpression(current.getValue());
+                }
+                catch (Exception e)
+                {
+                    throw new ParseError(e.Message, current);
+                }
+            }
+            if (match(TokenType.BOOL))
+            {
+                return new BooleanExpression(bool.Parse(current.getValue()));
             }
             if (match(TokenType.LPAREN))
             {
@@ -216,13 +311,13 @@ namespace EasyScript.parser
                 match(TokenType.RPAREN);
                 return result;
             }
-            throw new Exception("Unknown expression");
+            throw new ParseError("Unknown expression", current);
         }
 
         private Token consume(TokenType type)
         {
             Token current = this.get(0);
-            if (current.getType() != type) throw new Exception("Token " + current.getType() + " doesn't match " + type);
+            if (current.getType() != type) throw new ParseError("Token " + current.getType() + " doesn't match " + type, current);
             this.Position++;
             return current;
         }

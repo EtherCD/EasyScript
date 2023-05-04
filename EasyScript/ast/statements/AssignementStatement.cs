@@ -18,12 +18,7 @@ namespace EasyScript.ast.statements
         {
             this.var = var;
             this.expression = expression;
-        }
-
-        public void execute()
-        {
-            Value result = expression.eval();
-            int stat = Variables.change(var, result);
+            int stat = Variables.Attempt(var);
             if (stat == 1)
             {
                 throw new Exception("Attempting to change a non-existing variable");
@@ -32,6 +27,12 @@ namespace EasyScript.ast.statements
             {
                 throw new Exception("Attempt to overwrite a non-rewritable variable");
             }
+        }
+
+        public void execute()
+        {
+            Value result = expression.eval();
+            int stat = Variables.change(var, result);
         }
     }
 }

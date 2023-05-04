@@ -22,6 +22,7 @@ namespace EasyScript.lexer
         FOR,
         PRINT,
         EVAL,
+        LOADSCRIPT,
 
         PLUS,
         PLUSPLUS,
@@ -34,6 +35,8 @@ namespace EasyScript.lexer
         NOT,
         LPAREN,
         RPAREN,
+        LBRACE,
+        RBRACE,
         LT,
         LTEQ,
         GT,
