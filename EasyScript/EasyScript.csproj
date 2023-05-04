@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ast\expressions\BinaryExpression.cs" />
+    <Compile Include="ast\expressions\ConditionalExpression.cs" />
     <Compile Include="ast\expressions\ConstantExpression.cs" />
     <Compile Include="ast\expressions\Expression.cs" />
     <Compile Include="ast\expressions\NumberExpression.cs" />
@@ -52,9 +53,11 @@
     <Compile Include="ast\statements\AssignementStatement.cs" />
     <Compile Include="ast\statements\ConstStatement.cs" />
     <Compile Include="ast\statements\EvalStatement.cs" />
+    <Compile Include="ast\statements\IfStatement.cs" />
     <Compile Include="ast\statements\PrintStatement.cs" />
     <Compile Include="ast\statements\Statement.cs" />
     <Compile Include="ast\statements\VarStatement.cs" />
+    <Compile Include="ast\values\BooleanValue.cs" />
     <Compile Include="ast\values\NumberValue.cs" />
     <Compile Include="ast\values\StringValue.cs" />
     <Compile Include="ast\values\Value.cs" />

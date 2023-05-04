@@ -44,7 +44,27 @@ namespace EasyScript.parser
             {
                 return new EvalStatement(expression());
             }
+            if (match(TokenType.IF))
+            {
+                return ifElse();
+            }
             return assignmentStatement();
+        }
+
+        private Statement ifElse()
+        {
+            Expression condition = conditional();
+            Statement ifStatement = statement();
+            Statement elseStatement;
+            if (match(TokenType.ELSE))
+            {
+                elseStatement = statement();
+            }
+            else
+            {
+                elseStatement = null;
+            }
+            return new IfStatement(condition, ifStatement, elseStatement);
         }
 
         private Statement assignmentStatement()
@@ -75,7 +95,49 @@ namespace EasyScript.parser
 
         private Expression expression()
         {
-            return addtive();
+            return conditional();
+        }
+
+        private Expression conditional()
+        {
+            Expression result = addtive();
+
+            while (true)
+            {
+                if (match(TokenType.EQEQ))
+                {
+                    result = new ConditionalExpression("==", result, addtive());
+                    continue;
+                }
+                if (match(TokenType.NOTEQ))
+                {
+                    result = new ConditionalExpression("!=", result, addtive());
+                    continue;
+                }
+                if (match(TokenType.LT))
+                {
+                    result = new ConditionalExpression("<", result, addtive());
+                    continue;
+                }
+                if (match(TokenType.GT))
+                {
+                    result = new ConditionalExpression(">", result, addtive());
+                    continue;
+                }
+                if (match(TokenType.LTEQ))
+                {
+                    result = new ConditionalExpression("<=", result, addtive());
+                    continue;
+                }
+                if (match(TokenType.GTEQ))
+                {
+                    result = new ConditionalExpression(">=", result, addtive());
+                    continue;
+                }
+                break;
+            }
+
+            return result;
         }
 
         private Expression addtive()

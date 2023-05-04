@@ -6,30 +6,28 @@ using System.Threading.Tasks;
 
 namespace EasyScript.ast.values
 {
-    internal class StringValue : Value
+    internal class BooleanValue : Value
     {
-        private String value;
+        private bool value;
 
-        public StringValue(String value)
+        public BooleanValue(bool value)
         {
             this.value = value;
         }
 
         public bool asBoolean()
         {
-            return false;
+            return value;
         }
 
         public double asDouble()
         {
-            int var;
-            int.TryParse(value, out var);
-            return var;
+            return value ? 1 : 0;
         }
 
         public string asString()
         {
-            return value;
+            return "" + value;
         }
     }
 }

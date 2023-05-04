@@ -31,10 +31,17 @@ namespace EasyScript.lexer
         MINUSEQ,
         STAR,
         SLASH,
+        NOT,
         LPAREN,
         RPAREN,
+        LT,
+        LTEQ,
+        GT,
+        GTEQ,
 
         EQ,
+        EQEQ,
+        NOTEQ,
 
         EOF
     }

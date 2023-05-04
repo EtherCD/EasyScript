@@ -28,6 +28,14 @@ namespace EasyScript.lexer
             this.TokenKeys.Add("(", TokenType.LPAREN);
             this.TokenKeys.Add(")", TokenType.RPAREN);
             this.TokenKeys.Add("=", TokenType.EQ);
+            this.TokenKeys.Add("!", TokenType.NOT);
+
+            this.TokenKeys.Add("==", TokenType.EQEQ);
+            this.TokenKeys.Add("<", TokenType.LT);
+            this.TokenKeys.Add(">", TokenType.GT);
+            this.TokenKeys.Add("<=", TokenType.LTEQ);
+            this.TokenKeys.Add(">=", TokenType.GTEQ);
+            this.TokenKeys.Add("!=", TokenType.NOTEQ);
 
             this.TokenKeys.Add("const", TokenType.CONST);
             this.TokenKeys.Add("var", TokenType.VAR);

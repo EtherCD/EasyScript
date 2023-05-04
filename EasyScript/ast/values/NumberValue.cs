@@ -15,6 +15,11 @@ namespace EasyScript.ast.values
             this.value = value;
         }
 
+        public bool asBoolean()
+        {
+            return value == 1;
+        }
+
         public double asDouble()
         {
             return value;

@@ -10,5 +10,7 @@ namespace EasyScript.ast.values
     {
         double asDouble();
         String asString();
+
+        bool asBoolean();
     }
 }
