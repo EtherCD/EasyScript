@@ -10,7 +10,12 @@
   Small programming language. With big ambitions
   <br />
   <br />
-  Syntaxis
+  <h1>Doc</h1>
+  <a href="s">Introduction</a>
+  <h2>Libs</h2>
+  <a href="s">Math</a><br>
+  <a href="">Sys</a>
+  <h1>Syntaxis</h1>
 </div>
 
   ```es
