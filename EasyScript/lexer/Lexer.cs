@@ -52,9 +52,7 @@ namespace EasyScript.lexer
             this.TokenKeys.Add("break", TokenType.BREAK);
             this.TokenKeys.Add("next", TokenType.NEXT);
             this.TokenKeys.Add("for", TokenType.FOR);
-            this.TokenKeys.Add("print", TokenType.PRINT);
-            this.TokenKeys.Add("eval", TokenType.EVAL);
-            this.TokenKeys.Add("LoadScript", TokenType.LOADSCRIPT);
+            this.TokenKeys.Add("func", TokenType.FUNC);
 
         }
 
@@ -184,7 +182,7 @@ namespace EasyScript.lexer
             while (true)
             {
                 if (current == '\0') throw new LexeError("No end to multiline comment", startPosition, this.Input.Substring(this.LinePosition));
-                if (current == '*' && this.peek(1) == '/') break;
+                if (this.peek(0) == '*' && this.peek(1) == '/') break;
                 current = this.next();
             }
             this.next();
@@ -200,10 +198,12 @@ namespace EasyScript.lexer
                 {
                     this.next();this.next();
                     this.comment();
+                    return;
                 } else if (this.peek(1) == '*')
                 {
                     this.next();this.next();
                     this.multilineComment();
+                    return;
                 }
             }
             int startPositon = this.Position;

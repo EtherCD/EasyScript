@@ -56,12 +56,11 @@
     <Compile Include="ast\statements\BlockStatement.cs" />
     <Compile Include="ast\statements\BreakStatement.cs" />
     <Compile Include="ast\statements\ConstStatement.cs" />
-    <Compile Include="ast\statements\EvalStatement.cs" />
     <Compile Include="ast\statements\ForStatement.cs" />
+    <Compile Include="ast\statements\FunctionCreateStatement.cs" />
+    <Compile Include="ast\statements\FunctionStatement.cs" />
     <Compile Include="ast\statements\IfStatement.cs" />
-    <Compile Include="ast\statements\LoadScriptStatement.cs" />
     <Compile Include="ast\statements\NextStatement.cs" />
-    <Compile Include="ast\statements\PrintStatement.cs" />
     <Compile Include="ast\statements\Statement.cs" />
     <Compile Include="ast\statements\VarStatement.cs" />
     <Compile Include="ast\statements\DoWhileStatement.cs" />
@@ -81,6 +80,8 @@
     <Compile Include="lib\Errors\RuntimeError.cs" />
     <Compile Include="lib\Function.cs" />
     <Compile Include="lib\libs\Math.cs" />
+    <Compile Include="lib\libs\Sys.cs" />
+    <Compile Include="lib\UserFunction.cs" />
     <Compile Include="lib\VarHandler.cs" />
     <Compile Include="lib\Functions.cs" />
     <Compile Include="lib\Variables.cs" />

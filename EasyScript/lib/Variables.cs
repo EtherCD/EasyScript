@@ -10,19 +10,17 @@ namespace EasyScript.lib
     static class Variables
     {
         private static Dictionary<String, VarHandler> variables = new Dictionary<String, VarHandler>();
+        private static Dictionary<String, VarHandler> stack = new Dictionary<String, VarHandler>();
 
-        public static void Set(Dictionary<String, VarHandler> vars)
+        public static void Push()
         {
-            variables = vars;
+            variables = stack;
+            variables.Clear();
         }
 
-        public static Dictionary<String, VarHandler> Get()
+        public static void Stack()
         {
-            return variables;
-        }
-
-        public static void Clear()
-        {
+            stack = variables;
             variables.Clear();
         }
 

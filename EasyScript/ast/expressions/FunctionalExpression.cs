@@ -43,7 +43,18 @@ namespace EasyScript.ast.expressions
             }
             try
             {
-                return Functions.get(name).execute(values);
+                Function func = Functions.get(name);
+                if (func.GetType() == typeof(UserFunction))
+                {
+                    UserFunction userF = (UserFunction)func;
+                    if (size != userF.getArgsCount()) throw new RuntimeError("Args Count mismatch", myToken);
+
+                    for (int i = 0; i < size; i++)
+                    {
+                        Variables.set(userF.getArgsName(i), values[i], true);
+                    }
+                }
+                return func.execute(values);
             } catch (Exception e)
             {
                 throw new RuntimeError(e.Message, myToken);

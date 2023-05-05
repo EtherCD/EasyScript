@@ -66,21 +66,13 @@ namespace EasyScript.parser
 
         private Statement statement()
         {
-            if (match(TokenType.PRINT))
-            {
-                return new PrintStatement(expression());
-            }
-            if (match(TokenType.EVAL))
-            {
-                return new EvalStatement(expression());
-            }
-            if (match(TokenType.LOADSCRIPT))
-            {
-                return new LoadScriptStatement(expression(), get(0));
-            }
             if (match(TokenType.IF))
             {
                 return ifElse();
+            }
+            if (match(TokenType.DO))
+            {
+                return doWhileStatement();
             }
             if (match(TokenType.WHILE))
             {
@@ -98,9 +90,13 @@ namespace EasyScript.parser
             {
                 return new NextStatement();
             }
-            if (match(TokenType.DO))
+            if (match(TokenType.FUNC))
             {
-                return doWhileStatement();
+                return functionCreate();
+            }
+            if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LPAREN)
+            {
+                return new FunctionStatement(functionExpression());
             }
             return assignmentStatement();
         }
@@ -119,6 +115,7 @@ namespace EasyScript.parser
             Statement init = assignmentStatement();
             consume(TokenType.COMMA);
             Expression termination = expression();
+            consume(TokenType.COMMA);
             Statement increment = assignmentStatement();
             match(TokenType.RPAREN);
             Statement block = statementOrBlock();
@@ -148,7 +145,21 @@ namespace EasyScript.parser
             return new IfStatement(condition, ifStatement, elseStatement);
         }
 
-        private Expression functionExpression()
+        private FunctionCreateStatement functionCreate()
+        {
+            Token name = consume(TokenType.WORD);
+            consume(TokenType.LPAREN);
+            List<string> argNames = new List<string>();
+            while (!match(TokenType.RPAREN))
+            {
+                argNames.Add(consume(TokenType.WORD).getValue());
+                match(TokenType.COMMA);
+            }
+            Statement body = statementOrBlock();
+            return new FunctionCreateStatement(name.getValue(), argNames, body);
+        }
+
+        private FunctionalExpression functionExpression()
         {
             Token name = consume(TokenType.WORD);
             consume(TokenType.LPAREN);

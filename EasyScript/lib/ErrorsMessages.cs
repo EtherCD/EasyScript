@@ -47,20 +47,27 @@ namespace EasyScript.lib
         {
             String buffer = "";
             buffer += $"On line: {e.Token.Column}\n";
-            buffer += e.Token.LineText.Replace("\n", "") + '\n';
-            for (int i = 0; i < e.Token.startPos; i++)
+            if (e.Token == null)
             {
-                buffer += " ";
+                return;
             }
-            for (int i = 0; i < Math.Abs(e.Token.endPos - e.Token.startPos); i++)
+            else
             {
-                buffer += "^";
-            }
-            buffer += $"\nRuntimeException: {e.Message}";
+                buffer += e.Token.LineText.Replace("\n", "") + '\n';
+                for (int i = 0; i < e.Token.startPos; i++)
+                {
+                    buffer += " ";
+                }
+                for (int i = 0; i < Math.Abs(e.Token.endPos - e.Token.startPos); i++)
+                {
+                    buffer += "^";
+                }
+                buffer += $"\nRuntimeException: {e.Message}";
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(buffer);
-            Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(buffer);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
     }
 }

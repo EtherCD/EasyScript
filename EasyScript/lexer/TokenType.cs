@@ -22,9 +22,8 @@ namespace EasyScript.lexer
         BREAK,
         NEXT,
         FOR,
-        PRINT,
-        EVAL,
-        LOADSCRIPT,
+
+        FUNC,
 
         PLUS,
         PLUSPLUS,

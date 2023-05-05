@@ -1,25 +1,24 @@
 ﻿using EasyScript.ast.expressions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
-    internal class EvalStatement : Statement
+    internal class FunctionStatement : Statement
     {
-        private String value;
+        private FunctionalExpression function;
 
-        public EvalStatement(Expression value)
+        public FunctionStatement(FunctionalExpression function)
         {
-            this.value = value.eval().asString();
+            this.function = function;
         }
 
         public void execute()
         {
-            Program.Eval(value);
+            function.eval();
         }
     }
 }

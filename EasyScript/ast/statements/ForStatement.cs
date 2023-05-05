@@ -1,4 +1,5 @@
 ﻿using EasyScript.ast.expressions;
+using EasyScript.lib;
 using EasyScript.lib.Errors;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace EasyScript.ast.statements
 
         public void execute()
         {
+            Variables.Stack();
             for (Init.execute(); Termination.eval().asBoolean(); Increment.execute())
             {
                 try
@@ -44,6 +46,7 @@ namespace EasyScript.ast.statements
                     throw e;
                 }
             }
+            Variables.Push();
         }
     }
 }
