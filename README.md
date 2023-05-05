@@ -1,6 +1,8 @@
 <h1 align="center">
-  <a href="https://github.com/dec0dOS/amazing-github-template">
-    <img src="{{cookiecutter.repo_slug}}/logo.svg" alt="Logo" width="125" height="125">
+  EasyScript
+  <br><br>
+  <a>
+    <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
   </a>
 </h1>
 
