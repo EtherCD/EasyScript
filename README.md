@@ -31,13 +31,13 @@ var posy = random(height)
 var radius = random(30)
 
 print("| Colide emulator |")
-print ("| Default  Params |")
-print ("Speed: "+speed)
-print ("Angle: "+angle)
-print ("Pos: x -> "+posx+"\n     y -> "+posy)
-print ("Vel: x -> "+velx+"\n     y -> "+vely)
-print ("AreaSize: width -> "+width+"\n          height -> "+height)
-print ("|  Start Program  |")
+print("| Default  Params |")
+print("Speed: "+speed)
+print("Angle: "+angle)
+print("Pos: x -> "+posx+"\n     y -> "+posy)
+print("Vel: x -> "+velx+"\n     y -> "+vely)
+print("AreaSize: width -> "+width+"\n          height -> "+height)
+print("|  Start Program  |")
 
 var iterator = 0
 do {
