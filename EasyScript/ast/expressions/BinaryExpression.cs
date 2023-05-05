@@ -1,9 +1,7 @@
 ﻿using EasyScript.ast.values;
+using EasyScript.lexer;
+using EasyScript.lib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.expressions
 {
@@ -11,12 +9,14 @@ namespace EasyScript.ast.expressions
     {
         private Expression expr1, expr2;
         private Char operation;
+        private Token myToken;
 
-        public BinaryExpression(Char Operation, Expression expr1, Expression expr2)
+        public BinaryExpression(Char Operation, Expression expr1, Expression expr2, Token token)
         {
             this.operation = Operation;
             this.expr1 = expr1;
             this.expr2 = expr2;
+            this.myToken = token;
         }
             
         public Value eval()
@@ -35,6 +35,10 @@ namespace EasyScript.ast.expressions
                     case '*':
                         {
                             int iterations = (int)val2.asDouble();
+                            if (iterations > 2048)
+                            {
+                                throw new RuntimeError($"Too many multiplication iterations for string {iterations} > 2048", myToken);
+                            }
                             String buffer = "";
                             for (int i = 0; i < iterations; i++)
                             {
@@ -55,6 +59,10 @@ namespace EasyScript.ast.expressions
                     case '*':
                         {
                             int iterations = (int)val1.asDouble();
+                            if (iterations > 2048)
+                            {
+                                throw new RuntimeError($"Too many multiplication iterations for string {iterations} > 2048", myToken);
+                            }
                             String buffer = "";
                             for (int i = 0; i < iterations; i++)
                             {

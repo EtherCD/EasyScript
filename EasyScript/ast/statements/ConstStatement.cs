@@ -1,11 +1,8 @@
 ﻿using EasyScript.ast.expressions;
 using EasyScript.ast.values;
+using EasyScript.lexer;
 using EasyScript.lib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
@@ -13,19 +10,21 @@ namespace EasyScript.ast.statements
     {
         private String var;
         private Expression expression;
+        private Token myToken;
 
-        public ConstStatement(string var, Expression expression)
+        public ConstStatement(string var, Expression expression, Token token)
         {
             this.var = var;
             this.expression = expression;
-            if (Variables.isExists(var))
-            {
-                throw new Exception("Attempt to create an existing variable");
-            }
+            this.myToken = token;
         }
 
         public void execute()
         {
+            if (Variables.isExists(var))
+            {
+                throw new RuntimeError("Attempt to create an existing variable", myToken);
+            }
             Value result = expression.eval();
             Variables.set(var, result, false);
         }

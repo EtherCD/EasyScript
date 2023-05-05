@@ -19,6 +19,8 @@ namespace EasyScript.lexer
         ELSE,
         WHILE,
         DO,
+        BREAK,
+        NEXT,
         FOR,
         PRINT,
         EVAL,
@@ -45,6 +47,8 @@ namespace EasyScript.lexer
         EQ,
         EQEQ,
         NOTEQ,
+
+        COMMA,
 
         EOF
     }

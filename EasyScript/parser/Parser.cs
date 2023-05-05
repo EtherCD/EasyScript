@@ -26,26 +26,6 @@ namespace EasyScript.parser
             this.Size = Tokens.Count;
         }
 
-        private void ErrorHandler(ParseError e)
-        {
-            String buffer = "!| Error |!\n";
-            buffer += $"On line: {e.Token.Column}\n";
-            buffer += e.Token.LineText + '\n';
-            for (int i = 0; i < e.Token.startPos; i++)
-            {
-                buffer += " ";
-            }
-            for (int i = 0; i < Math.Abs(e.Token.endPos - e.Token.startPos); i++)
-            {
-                buffer += "^";
-            }
-            buffer += $"\nException: {e.Message}";
-
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(buffer);
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
         public BlockStatement parse()
         {
             try
@@ -59,7 +39,7 @@ namespace EasyScript.parser
                 return result;
             }
             catch (ParseError e) {
-                ErrorHandler(e);
+                ErrorsMessages.ParseError(e);
                 return new BlockStatement();
             }
         }
@@ -96,7 +76,7 @@ namespace EasyScript.parser
             }
             if (match(TokenType.LOADSCRIPT))
             {
-                return new LoadScriptStatement(expression());
+                return new LoadScriptStatement(expression(), get(0));
             }
             if (match(TokenType.IF))
             {
@@ -106,7 +86,43 @@ namespace EasyScript.parser
             {
                 return whileStatement();
             }
+            if (match(TokenType.FOR))
+            {
+                return forStatement();
+            }
+            if (match(TokenType.BREAK))
+            {
+                return new BreakStatement();
+            }
+            if (match(TokenType.NEXT))
+            {
+                return new NextStatement();
+            }
+            if (match(TokenType.DO))
+            {
+                return doWhileStatement();
+            }
             return assignmentStatement();
+        }
+
+        private Statement doWhileStatement()
+        {
+            Statement statmnt = statementOrBlock();
+            consume(TokenType.WHILE);
+            Expression condition = conditional();
+            return new DoWhileStatement(condition, statmnt);
+        }
+
+        private Statement forStatement()
+        {
+            match(TokenType.LPAREN);
+            Statement init = assignmentStatement();
+            consume(TokenType.COMMA);
+            Expression termination = expression();
+            Statement increment = assignmentStatement();
+            match(TokenType.RPAREN);
+            Statement block = statementOrBlock();
+            return new ForStatement(init, termination, increment, block);
         }
 
         private Statement whileStatement()
@@ -132,6 +148,19 @@ namespace EasyScript.parser
             return new IfStatement(condition, ifStatement, elseStatement);
         }
 
+        private Expression functionExpression()
+        {
+            Token name = consume(TokenType.WORD);
+            consume(TokenType.LPAREN);
+            FunctionalExpression function = new FunctionalExpression(name.getValue(), name);
+            while(!match(TokenType.RPAREN))
+            {
+                function.addArgument(expression());
+                match(TokenType.COMMA);
+            }
+            return function;
+        }
+
         private Statement assignmentStatement()
         {
             Token current = get(0);
@@ -139,42 +168,21 @@ namespace EasyScript.parser
             {
                 String variable = current.getValue();
                 consume(TokenType.EQ);
-                try
-                {
-                    return new AssignementStatement(variable, expression());
-                }
-                catch (Exception e)
-                {
-                    throw new ParseError(e.Message, current);
-                }
+                return new AssignementStatement(variable, expression(), current);
             }
             if (match(TokenType.VAR) && get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
-                String variable = get(0).getValue();
+                Token variable = get(0);
                 consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                try
-                {
-                    return new VarStatement(variable, expression());
-                }
-                catch (Exception e)
-                {
-                    throw new ParseError(e.Message, current);
-                }
+                return new VarStatement(variable.getValue(), expression(), current);
             }
             if (match(TokenType.CONST) && get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
                 String variable = get(0).getValue();
                 consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                try
-                {
-                    return new ConstStatement(variable, expression());
-                }
-                catch (Exception e)
-                {
-                    throw new ParseError(e.Message, current);
-                }
+                return new ConstStatement(variable, expression(), current);
             }
             throw new ParseError("Unknown Statement", current);
         }
@@ -229,17 +237,18 @@ namespace EasyScript.parser
         private Expression addtive()
         {
             Expression result = multiplicative();
+            Token current = get(0);
 
             while (true)
             {
                 if (match(TokenType.PLUS))
                 {
-                    result = new BinaryExpression('+', result, multiplicative());
+                    result = new BinaryExpression('+', result, multiplicative(), current);
                     continue;
                 }
                 if (match(TokenType.MINUS))
                 {
-                    result = new BinaryExpression('-', result, multiplicative());
+                    result = new BinaryExpression('-', result, multiplicative(), current);
                     continue;
                 }
                 break;
@@ -251,17 +260,18 @@ namespace EasyScript.parser
         private Expression multiplicative()
         {
             Expression result = unary();
+            Token current = get(0);
 
             while (true)
             {
                 if (match(TokenType.STAR))
                 {
-                    result = new BinaryExpression('*', result, unary());
+                    result = new BinaryExpression('*', result, unary(), current);
                     continue;
                 }
                 if (match(TokenType.SLASH))
                 {
-                    result = new BinaryExpression('/', result, unary());
+                    result = new BinaryExpression('/', result, unary(), current);
                     continue;
                 }
                 break;
@@ -290,16 +300,13 @@ namespace EasyScript.parser
             {
                 return new StringExpression(current.getValue());
             }
+            if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LPAREN)
+            {
+                return functionExpression();
+            }
             if (match(TokenType.WORD))
             {
-                try
-                {
-                    return new ConstantExpression(current.getValue());
-                }
-                catch (Exception e)
-                {
-                    throw new ParseError(e.Message, current);
-                }
+                return new ConstantExpression(current.getValue(), current);
             }
             if (match(TokenType.BOOL))
             {

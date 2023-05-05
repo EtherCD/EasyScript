@@ -1,11 +1,8 @@
 ﻿using EasyScript.ast.expressions;
 using EasyScript.ast.values;
+using EasyScript.lexer;
 using EasyScript.lib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
@@ -13,26 +10,27 @@ namespace EasyScript.ast.statements
     {
         private String var;
         private Expression expression;
+        private Token myToken;
 
-        public AssignementStatement(string var, Expression expression)
+        public AssignementStatement(string var, Expression expression, Token token)
         {
             this.var = var;
             this.expression = expression;
-            int stat = Variables.Attempt(var);
-            if (stat == 1)
-            {
-                throw new Exception("Attempting to change a non-existing variable");
-            }
-            if (stat == 2)
-            {
-                throw new Exception("Attempt to overwrite a non-rewritable variable");
-            }
+            this.myToken = token;
         }
 
         public void execute()
         {
             Value result = expression.eval();
             int stat = Variables.change(var, result);
+            if (stat == 1)
+            {
+                throw new RuntimeError("Attempting to change a non-existing variable", myToken);
+            }
+            if (stat == 2)
+            {
+                throw new RuntimeError("Attempt to overwrite a non-rewritable variable", myToken);
+            }
         }
     }
 }

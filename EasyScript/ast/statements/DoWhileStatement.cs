@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
-    internal class WhileStatement : Statement
+    internal class DoWhileStatement : Statement
     {
         private Expression condition;
         private Statement statement;
 
-        public WhileStatement(Expression condition, Statement statement)
+        public DoWhileStatement(Expression condition, Statement statement)
         {
             this.condition = condition;
             this.statement = statement;
@@ -21,25 +21,25 @@ namespace EasyScript.ast.statements
 
         public void execute()
         {
-            while (condition.eval().asBoolean())
+            do
             {
                 try
                 {
                     statement.execute();
-                } 
+                }
                 catch (BreakError e)
                 {
                     break;
-                } 
-                catch (NextError) 
+                }
+                catch (NextError)
                 {
                     continue;
-                } 
+                }
                 catch (Exception e)
                 {
                     throw e;
                 }
-            }
+            } while (condition.eval().asBoolean());
         }
     }
 }

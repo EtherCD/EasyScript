@@ -34,6 +34,7 @@ namespace EasyScript.lexer
             this.TokenKeys.Add("}", TokenType.RBRACE);
             this.TokenKeys.Add("=", TokenType.EQ);
             this.TokenKeys.Add("!", TokenType.NOT);
+            this.TokenKeys.Add(",", TokenType.COMMA);
 
             this.TokenKeys.Add("==", TokenType.EQEQ);
             this.TokenKeys.Add("<", TokenType.LT);
@@ -48,6 +49,8 @@ namespace EasyScript.lexer
             this.TokenKeys.Add("else", TokenType.ELSE);
             this.TokenKeys.Add("while", TokenType.WHILE);
             this.TokenKeys.Add("do", TokenType.DO);
+            this.TokenKeys.Add("break", TokenType.BREAK);
+            this.TokenKeys.Add("next", TokenType.NEXT);
             this.TokenKeys.Add("for", TokenType.FOR);
             this.TokenKeys.Add("print", TokenType.PRINT);
             this.TokenKeys.Add("eval", TokenType.EVAL);
@@ -75,17 +78,7 @@ namespace EasyScript.lexer
                 }
             } catch (LexeError e)
             {
-                String buffer = "!| Error |!\n";
-                buffer += e.Line + '\n';
-                for (int i = 0; i < e.Position-1; i++)
-                {
-                    buffer += " ";
-                }
-                buffer += "^";
-                buffer += $"\nException: {e.Message}";
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(buffer);
-                Console.ForegroundColor = ConsoleColor.White;
+                ErrorsMessages.LexeError(e);
             }
             
 
@@ -178,7 +171,7 @@ namespace EasyScript.lexer
         private void comment()
         {
             Char current = this.peek(0);
-            while ("\r\n\0".IndexOf(current) != -1)
+            while ("\r\n\0".IndexOf(current) == -1)
             {
                 current = this.next();
             }
@@ -248,9 +241,9 @@ namespace EasyScript.lexer
         private void addToken(TokenType Type, String Value, int startPosition)
         {
             Token token = new Token(Type, Value);
-            token.LineText = this.Input.Substring(this.LinePosition);
-            token.startPos = startPosition - this.LinePosition;
-            token.endPos = this.Position-this.LinePosition;
+            token.LineText = this.Input.Substring(this.LinePosition, Math.Abs(this.Position - this.LinePosition));
+            token.startPos = startPosition - this.LinePosition-1;
+            token.endPos = this.Position-this.LinePosition-1;
             token.Column = this.Column;
             this.Tokens.Add(token);
         }
