@@ -11,10 +11,10 @@
   <br />
   <br />
   <h1>Doc</h1>
-  <a href="s">Introduction</a>
+  <a href="https://github.com/EtherCD/EasyScript/blob/master/doc/Intro.md">Introduction</a>
   <h2>Libs</h2>
-  <a href="s">Math</a><br>
-  <a href="">Sys</a>
+  <a href="https://github.com/EtherCD/EasyScript/blob/master/doc/Math.md">Math</a><br>
+  <a href="https://github.com/EtherCD/EasyScript/blob/master/doc/Sys.md">Sys</a>
   <h1>Syntaxis</h1>
 </div>
 
