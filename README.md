@@ -30,18 +30,18 @@ var posy = random(height)
 
 var radius = random(30)
 
-print "| Colide emulator |"
-print "| Default  Params |"
-print "Speed: "+speed
-print "Angle: "+angle
-print "Pos: x -> "+posx+"\n     y -> "+posy
-print "Vel: x -> "+velx+"\n     y -> "+vely
-print "AreaSize: width -> "+width+"\n          height -> "+height
-print "|  Start Program  |"
+print("| Colide emulator |")
+print ("| Default  Params |")
+print ("Speed: "+speed)
+print ("Angle: "+angle)
+print ("Pos: x -> "+posx+"\n     y -> "+posy)
+print ("Vel: x -> "+velx+"\n     y -> "+vely)
+print ("AreaSize: width -> "+width+"\n          height -> "+height)
+print ("|  Start Program  |")
 
 var iterator = 0
 do {
-    print "|  Start  Frame  |"
+    print("|  Start  Frame  |")
     print "Frame Counter: " + iterator
     posx = posx + velx
     posy = posy + vely
@@ -63,11 +63,11 @@ do {
         vely = -abs(vely)
     }
 
-    print "Pos: x -> "+posx+"\n     y -> "+posy
+    print("Pos: x -> "+posx+"\n     y -> "+posy)
 
-    print "|   End  Frame   |"
+    print("|   End  Frame   |")
     iterator = iterator + 1
 } while (iterator < 100)
-print "!  End  Program  !"
+print("!  End  Program  !")
   
   ```
