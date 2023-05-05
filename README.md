@@ -14,23 +14,60 @@
 </div>
 
   ```es
-  const a = 1
-  var b = a + 2
-  
-  print "a" * 20
-  
-  while (true) {
-    print "Break Statement"
-    break
-  }
-  
-  for (var a = 0, a <= 10, i = i + 1) {
-    print "Continue Statement"
-    next
-  }
-  
-  do {
-    break
-  } while (true)
+  const pi = 3.145
+
+const angle = random(1)
+const speed = random(10, 20)
+
+var velx = cos(angle*pi*2)*speed
+var vely = sin(angle*pi*2)*speed
+
+var width = 80 * 32
+var height = 15 * 32
+
+var posx = random(width)
+var posy = random(height)
+
+var radius = random(30)
+
+print "| Colide emulator |"
+print "| Default  Params |"
+print "Speed: "+speed
+print "Angle: "+angle
+print "Pos: x -> "+posx+"\n     y -> "+posy
+print "Vel: x -> "+velx+"\n     y -> "+vely
+print "AreaSize: width -> "+width+"\n          height -> "+height
+print "|  Start Program  |"
+
+var iterator = 0
+do {
+    print "|  Start  Frame  |"
+    print "Frame Counter: " + iterator
+    posx = posx + velx
+    posy = posy + vely
+
+    if (posx - radius < 0) {
+        posx = radius
+        velx = abs(velx)
+    }
+    if (posx + radius > width) {
+        posx = width - radius
+        velx = -abs(velx)
+    }
+    if (posy - radius < 0) {
+        posy = radius
+        vely = abs(vely)
+    }
+    if (posy + radius > height) {
+        posy = height - radius
+        vely = -abs(vely)
+    }
+
+    print "Pos: x -> "+posx+"\n     y -> "+posy
+
+    print "|   End  Frame   |"
+    iterator = iterator + 1
+} while (iterator < 100)
+print "!  End  Program  !"
   
   ```
