@@ -1,5 +1,7 @@
 # Math
-## Type Lib: **Default Library**
+> Type Lib: **Default Library**
+
+> Written in **C#**
 ## **Functions**
 * abs(x)
   + Returns the absolute value of x.
