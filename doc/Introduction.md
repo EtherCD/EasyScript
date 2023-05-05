@@ -1,8 +1,7 @@
 # Introduction
-**EasyScript** - это простой язык програмирования. Предназначиный как дополнение к проэктам.
-Является динамически типизрованым языком програмирования.
+**EasyScript** - it is a simple programming language. Designed as an addition to projects. It is a dynamically typed programming language.
 
-**Пока в ранней разработке**
+**While in early development**
 
 ## Syntaxis
 > Сomments
