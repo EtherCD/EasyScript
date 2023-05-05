@@ -42,7 +42,7 @@ print("|  Start Program  |")
 var iterator = 0
 do {
     print("|  Start  Frame  |")
-    print "Frame Counter: " + iterator
+    print("Frame Counter: " + iterator)
     posx = posx + velx
     posy = posy + vely
 
