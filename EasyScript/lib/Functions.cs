@@ -1,11 +1,6 @@
-﻿using EasyScript.ast.values;
-using EasyScript.lib.libs;
+﻿using EasyScript.lib.libs;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.lib
 {
@@ -22,8 +17,10 @@ namespace EasyScript.lib
 
         public static void Push()
         {
-            functions = stack;
             functions.Clear();
+            functions = stack;
+            MathLib.Init();
+            SysLib.Init();
         }
 
         public static void Stack()
@@ -49,7 +46,7 @@ namespace EasyScript.lib
         {
             if (!isExists(key))
             {
-                throw new Exception("Unknown function "+key);
+                throw new Exception("Unknown function " + key);
             }
             return functions[key];
         }

@@ -1,9 +1,6 @@
 ﻿using EasyScript.lib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.lexer
 {
@@ -14,7 +11,7 @@ namespace EasyScript.lexer
         private List<Token> Tokens = new List<Token>();
         private int Position;
         private int LinePosition;
-        private int Column;
+        private int Column = 1;
 
         private Dictionary<String, TokenType> TokenKeys = new Dictionary<String, TokenType>();
 
@@ -32,6 +29,8 @@ namespace EasyScript.lexer
             this.TokenKeys.Add(")", TokenType.RPAREN);
             this.TokenKeys.Add("{", TokenType.LBRACE);
             this.TokenKeys.Add("}", TokenType.RBRACE);
+            this.TokenKeys.Add("[", TokenType.LBRACKET);
+            this.TokenKeys.Add("]", TokenType.RBRACKET);
             this.TokenKeys.Add("=", TokenType.EQ);
             this.TokenKeys.Add("!", TokenType.NOT);
             this.TokenKeys.Add(",", TokenType.COMMA);
@@ -74,13 +73,14 @@ namespace EasyScript.lexer
                     else if (this.TokenKeys.ContainsKey("" + current)) this.operators();
                     else this.next();
                 }
-            } catch (LexeError e)
+            }
+            catch (LexeError e)
             {
                 ErrorsMessages.LexeError(e);
             }
-            
 
-            foreach (Token t in this.Tokens) 
+
+            foreach (Token t in this.Tokens)
             {
                 if (t.getType() == TokenType.WORD && (t.getValue() == "true" || t.getValue() == "false"))
                 {
@@ -98,15 +98,15 @@ namespace EasyScript.lexer
             int startPositon = this.Position;
             while (true)
             {
-                if (current == '.') 
+                if (current == '.')
                 {
                     if (buffer.IndexOf(".") != -1) throw new LexeError("Invalid float number.", startPositon, this.Input.Substring(this.LinePosition));
-                } 
+                }
                 else if (!Char.IsNumber(current))
                 {
                     break;
                 }
-                buffer+=current;
+                buffer += current;
                 current = this.next();
             }
             this.addToken(TokenType.NUMBER, buffer, startPositon);
@@ -123,13 +123,14 @@ namespace EasyScript.lexer
                 {
                     break;
                 }
-                buffer+=current;
+                buffer += current;
                 current = this.next();
             }
             if (this.TokenKeys.ContainsKey(buffer))
             {
                 this.addToken(this.TokenKeys[buffer], startPositon);
-            } else
+            }
+            else
             {
                 this.addToken(TokenType.WORD, buffer, startPositon);
             }
@@ -196,12 +197,13 @@ namespace EasyScript.lexer
             {
                 if (this.peek(1) == '/')
                 {
-                    this.next();this.next();
+                    this.next(); this.next();
                     this.comment();
                     return;
-                } else if (this.peek(1) == '*')
+                }
+                else if (this.peek(1) == '*')
                 {
-                    this.next();this.next();
+                    this.next(); this.next();
                     this.multilineComment();
                     return;
                 }
@@ -242,8 +244,8 @@ namespace EasyScript.lexer
         {
             Token token = new Token(Type, Value);
             token.LineText = this.Input.Substring(this.LinePosition, Math.Abs(this.Position - this.LinePosition));
-            token.startPos = startPosition - this.LinePosition-1;
-            token.endPos = this.Position-this.LinePosition-1;
+            token.startPos = startPosition - this.LinePosition;
+            token.endPos = this.Position - this.LinePosition;
             token.Column = this.Column;
             this.Tokens.Add(token);
         }

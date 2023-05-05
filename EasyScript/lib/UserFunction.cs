@@ -1,11 +1,7 @@
 ﻿using EasyScript.ast.statements;
 using EasyScript.ast.values;
-using EasyScript.lib.Errors;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.lib
 {
@@ -24,7 +20,7 @@ namespace EasyScript.lib
         {
             return argnames.Count;
         }
-        
+
         public String getArgsName(int index)
         {
             if (index < 0 || index >= getArgsCount()) return "";

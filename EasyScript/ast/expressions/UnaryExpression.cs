@@ -1,13 +1,9 @@
 ﻿using EasyScript.ast.values;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.expressions
 {
-    internal class UnaryExpression: Expression
+    internal class UnaryExpression : Expression
     {
         private Expression expr1;
         private Char operation;

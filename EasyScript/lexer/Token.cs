@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.lexer
 {
@@ -15,10 +11,10 @@ namespace EasyScript.lexer
         public int startPos = 0;
         public int endPos = 0;
 
-        public Token(TokenType Type, String Value) 
+        public Token(TokenType Type, String Value)
         {
             this.Type = Type;
-            this.Value= Value;
+            this.Value = Value;
         }
 
         public void SetType(TokenType Type)

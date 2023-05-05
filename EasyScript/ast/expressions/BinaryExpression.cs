@@ -18,13 +18,13 @@ namespace EasyScript.ast.expressions
             this.expr2 = expr2;
             this.myToken = token;
         }
-            
+
         public Value eval()
         {
             Value val1 = expr1.eval();
             Value val2 = expr2.eval();
 
-            if (val1.GetType() == typeof(StringValue)) 
+            if (val1.GetType() == typeof(StringValue))
             {
                 String string1 = val1.asString();
                 String string2 = val2.asString();
@@ -75,7 +75,7 @@ namespace EasyScript.ast.expressions
 
             double number1 = val1.asDouble();
             double number2 = val2.asDouble();
-            switch(this.operation)
+            switch (this.operation)
             {
                 default:
                 case '+': return new NumberValue(number1 + number2);

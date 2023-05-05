@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EasyScript.lexer
+﻿namespace EasyScript.lexer
 {
     internal enum TokenType
     {
@@ -38,6 +32,8 @@ namespace EasyScript.lexer
         RPAREN,
         LBRACE,
         RBRACE,
+        LBRACKET,
+        RBRACKET,
         LT,
         LTEQ,
         GT,

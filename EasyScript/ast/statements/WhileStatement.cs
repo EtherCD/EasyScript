@@ -1,10 +1,6 @@
 ﻿using EasyScript.ast.expressions;
 using EasyScript.lib.Errors;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
@@ -26,15 +22,15 @@ namespace EasyScript.ast.statements
                 try
                 {
                     statement.execute();
-                } 
+                }
                 catch (BreakError e)
                 {
                     break;
-                } 
-                catch (NextError) 
+                }
+                catch (NextError)
                 {
                     continue;
-                } 
+                }
                 catch (Exception e)
                 {
                     throw e;

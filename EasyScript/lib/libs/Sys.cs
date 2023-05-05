@@ -1,11 +1,6 @@
 ﻿using EasyScript.ast.values;
-using EasyScript.lexer;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.lib.libs
 {
@@ -14,25 +9,21 @@ namespace EasyScript.lib.libs
         public static void Init()
         {
             Functions.addFunction("print", new SysPrint());
-            Functions.addFunction("println", new SysPrintln());
             Functions.addFunction("eval", new SysEval());
             Functions.addFunction("LoadScript", new SysLoadScript());
+            Functions.addFunction("array", new SysArrayConstructor());
+        }
+    }
+
+    class SysArrayConstructor : Function
+    {
+        public Value execute(params Value[] args)
+        {
+            return new ArrayValue(args);
         }
     }
 
     class SysPrint : Function
-    {
-        public Value execute(params Value[] args)
-        {
-            foreach (Value val in args)
-            {
-                Console.Write(val.asString());
-            }
-            return new BooleanValue(false);
-        }
-    }
-
-    class SysPrintln : Function
     {
         public Value execute(params Value[] args)
         {
@@ -68,6 +59,7 @@ namespace EasyScript.lib.libs
             try
             {
                 Variables.Stack();
+                Variables.Clear();
                 Functions.Stack();
                 string code = File.ReadAllText(args[0].asString());
                 Program.Eval(code);

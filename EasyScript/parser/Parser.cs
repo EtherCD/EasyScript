@@ -2,12 +2,8 @@
 using EasyScript.ast.statements;
 using EasyScript.lexer;
 using EasyScript.lib;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.parser
 {
@@ -38,7 +34,8 @@ namespace EasyScript.parser
                 }
                 return result;
             }
-            catch (ParseError e) {
+            catch (ParseError e)
+            {
                 ErrorsMessages.ParseError(e);
                 return new BlockStatement();
             }
@@ -164,7 +161,7 @@ namespace EasyScript.parser
             Token name = consume(TokenType.WORD);
             consume(TokenType.LPAREN);
             FunctionalExpression function = new FunctionalExpression(name.getValue(), name);
-            while(!match(TokenType.RPAREN))
+            while (!match(TokenType.RPAREN))
             {
                 function.addArgument(expression());
                 match(TokenType.COMMA);
@@ -172,30 +169,59 @@ namespace EasyScript.parser
             return function;
         }
 
+        private Expression element()
+        {
+            Token variable = consume(TokenType.WORD);
+            consume(TokenType.LBRACKET);
+            Expression index = expression();
+            consume(TokenType.RBRACKET);
+            return new ArrayAcessExpression(variable, index);
+        }
+
+        private Expression array()
+        {
+            List<Expression> elements = new List<Expression>();
+            consume(TokenType.LBRACKET);
+            while (!match(TokenType.RBRACKET))
+            {
+                elements.Add(expression());
+                match(TokenType.COMMA);
+            }
+            return new ArrayExpression(elements);
+        }
+
         private Statement assignmentStatement()
         {
-            Token current = get(0);
-            if (match(TokenType.WORD) && get(0).getType() == TokenType.EQ)
+            if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
-                String variable = current.getValue();
+                Token variable = consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                return new AssignementStatement(variable, expression(), current);
+                return new AssignementStatement(variable.getValue(), expression(), variable);
             }
             if (match(TokenType.VAR) && get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
                 Token variable = get(0);
                 consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                return new VarStatement(variable.getValue(), expression(), current);
+                return new VarStatement(variable.getValue(), expression(), variable);
             }
             if (match(TokenType.CONST) && get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.EQ)
             {
-                String variable = get(0).getValue();
+                Token variable = get(0);
                 consume(TokenType.WORD);
                 consume(TokenType.EQ);
-                return new ConstStatement(variable, expression(), current);
+                return new ConstStatement(variable.getValue(), expression(), variable);
             }
-            throw new ParseError("Unknown Statement", current);
+            if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LBRACKET)
+            {
+                Token variable = consume(TokenType.WORD);
+                consume(TokenType.LBRACKET);
+                Expression index = expression();
+                consume(TokenType.RBRACKET);
+                consume(TokenType.EQ);
+                return new ArrayAssignmentStatement(variable.getValue(), index, expression(), variable);
+            }
+            throw new ParseError("Unknown Statement", get(0));
         }
 
         private Expression expression()
@@ -314,6 +340,14 @@ namespace EasyScript.parser
             if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LPAREN)
             {
                 return functionExpression();
+            }
+            if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LBRACKET)
+            {
+                return element();
+            }
+            if (get(0).getType() == TokenType.LBRACKET)
+            {
+                return array();
             }
             if (match(TokenType.WORD))
             {

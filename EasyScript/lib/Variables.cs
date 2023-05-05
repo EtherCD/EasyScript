@@ -1,9 +1,6 @@
 ﻿using EasyScript.ast.values;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.lib
 {
@@ -12,16 +9,20 @@ namespace EasyScript.lib
         private static Dictionary<String, VarHandler> variables = new Dictionary<String, VarHandler>();
         private static Dictionary<String, VarHandler> stack = new Dictionary<String, VarHandler>();
 
+        public static void Clear()
+        {
+            variables.Clear();
+        }
+
         public static void Push()
         {
-            variables = stack;
             variables.Clear();
+            variables = stack;
         }
 
         public static void Stack()
         {
             stack = variables;
-            variables.Clear();
         }
 
         public static bool isExists(String key)
@@ -53,7 +54,8 @@ namespace EasyScript.lib
             if (!isExists(key))
             {
                 return 1;
-            } else if (!variables[key].getOverwrite())
+            }
+            else if (!variables[key].getOverwrite())
             {
                 return 2;
             }

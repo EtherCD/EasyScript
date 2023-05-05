@@ -1,9 +1,4 @@
 ﻿using EasyScript.ast.expressions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
@@ -25,7 +20,9 @@ namespace EasyScript.ast.statements
             if (result)
             {
                 ifStat.execute();
-            } else if (elseStat != null) {
+            }
+            else if (elseStat != null)
+            {
                 elseStat.execute();
             }
         }

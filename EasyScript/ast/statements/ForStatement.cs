@@ -2,10 +2,6 @@
 using EasyScript.lib;
 using EasyScript.lib.Errors;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.statements
 {
@@ -26,7 +22,6 @@ namespace EasyScript.ast.statements
 
         public void execute()
         {
-            Variables.Stack();
             for (Init.execute(); Termination.eval().asBoolean(); Increment.execute())
             {
                 try
@@ -46,7 +41,6 @@ namespace EasyScript.ast.statements
                     throw e;
                 }
             }
-            Variables.Push();
         }
     }
 }

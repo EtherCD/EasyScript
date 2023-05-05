@@ -3,9 +3,6 @@ using EasyScript.lexer;
 using EasyScript.lib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyScript.ast.expressions
 {
@@ -55,7 +52,8 @@ namespace EasyScript.ast.expressions
                     }
                 }
                 return func.execute(values);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new RuntimeError(e.Message, myToken);
             }

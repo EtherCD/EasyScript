@@ -1,14 +1,9 @@
-﻿using EasyScript.lexer;
+﻿using EasyScript.ast.statements;
+using EasyScript.lexer;
+using EasyScript.lib;
 using EasyScript.parser;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyScript.ast.expressions;
-using EasyScript.ast.statements;
-using static System.Net.Mime.MediaTypeNames;
-using EasyScript.lib;
 
 namespace EasyScript
 {
@@ -23,7 +18,8 @@ namespace EasyScript
             try
             {
                 three.execute();
-            } catch (RuntimeError e)
+            }
+            catch (RuntimeError e)
             {
                 ErrorsMessages.RuntimeError(e);
             }
