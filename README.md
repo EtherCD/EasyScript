@@ -1,17 +1,22 @@
-<h1 align="center">
-  EasyScript
-  <br><br>
-  <a>
-    <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
-  </a>
-</h1>
-
 <div align="center">
+  <h1 align="center">
+    EasyScript
+    <br>
+    <a>
+      <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
+    </a><br>
+    <img src="https://img.shields.io/tokei/lines/github/EtherCD/EasyScript?style=for-the-badge" />
+    <img src="https://img.shields.io/github/languages/code-size/EtherCD/EasyScript?style=for-the-badge" />
+  </h1>
   Small programming language. With big ambitions
   <br />
   <br />
-  Syntaxis
 </div>
+
+## API Documentaton
+>[Introduction](https://github.com/EtherCD/EasyScript/blob/master/doc/Introduction.md)
+
+# Program Example
 
   ```es
   const pi = 3.145
@@ -30,19 +35,19 @@ var posy = random(height)
 
 var radius = random(30)
 
-print "| Colide emulator |"
-print "| Default  Params |"
-print "Speed: "+speed
-print "Angle: "+angle
-print "Pos: x -> "+posx+"\n     y -> "+posy
-print "Vel: x -> "+velx+"\n     y -> "+vely
-print "AreaSize: width -> "+width+"\n          height -> "+height
-print "|  Start Program  |"
+print("| Colide emulator |")
+print("| Default  Params |")
+print("Speed: "+speed)
+print("Angle: "+angle)
+print("Pos: x -> "+posx+"\n     y -> "+posy)
+print("Vel: x -> "+velx+"\n     y -> "+vely)
+print("AreaSize: width -> "+width+"\n          height -> "+height)
+print("|  Start Program  |")
 
 var iterator = 0
 do {
-    print "|  Start  Frame  |"
-    print "Frame Counter: " + iterator
+    print("|  Start  Frame  |")
+    print("Frame Counter: " + iterator)
     posx = posx + velx
     posy = posy + vely
 
@@ -63,11 +68,11 @@ do {
         vely = -abs(vely)
     }
 
-    print "Pos: x -> "+posx+"\n     y -> "+posy
+    print("Pos: x -> "+posx+"\n     y -> "+posy)
 
-    print "|   End  Frame   |"
+    print("|   End  Frame   |")
     iterator = iterator + 1
 } while (iterator < 100)
-print "!  End  Program  !"
+print("!  End  Program  !")
   
   ```
