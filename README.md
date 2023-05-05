@@ -16,7 +16,7 @@
 ## API Documentaton
 >[Introduction](https://github.com/EtherCD/EasyScript/blob/master/doc/Introduction.md)
 
-# Syntaxis
+# Program Example
 
   ```es
   const pi = 3.145
