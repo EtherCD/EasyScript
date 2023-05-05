@@ -1,7 +1,7 @@
 <div align="center">
   <h1 align="center">
     EasyScript
-    <br><br>
+    <br>
     <a>
       <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
     </a><br>
