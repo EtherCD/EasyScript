@@ -3,7 +3,9 @@
   <br><br>
   <a>
     <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
-  </a>
+  </a><br>
+  <img src="https://img.shields.io/tokei/lines/github/EtherCD/EasyScript?style=for-the-badge" />
+  <img src="https://img.shields.io/github/languages/code-size/EtherCD/EasyScript?style=for-the-badge" />
 </h1>
 
 <div align="center">
