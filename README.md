@@ -1,24 +1,22 @@
-<h1 align="center">
-  EasyScript
-  <br><br>
-  <a>
-    <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
-  </a><br>
-  <img src="https://img.shields.io/tokei/lines/github/EtherCD/EasyScript?style=for-the-badge" />
-  <img src="https://img.shields.io/github/languages/code-size/EtherCD/EasyScript?style=for-the-badge" />
-</h1>
-
 <div align="center">
+  <h1 align="center">
+    EasyScript
+    <br><br>
+    <a>
+      <img src="https://github.com/EtherCD/EasyScript/blob/master/logo.png?raw=true" alt="Logo" width="125" height="125">
+    </a><br>
+    <img src="https://img.shields.io/tokei/lines/github/EtherCD/EasyScript?style=for-the-badge" />
+    <img src="https://img.shields.io/github/languages/code-size/EtherCD/EasyScript?style=for-the-badge" />
+  </h1>
   Small programming language. With big ambitions
   <br />
   <br />
-  <h1>Doc</h1>
-  <a href="https://github.com/EtherCD/EasyScript/blob/master/doc/Intro.md">Introduction</a>
-  <h2>Libs</h2>
-  <a href="https://github.com/EtherCD/EasyScript/blob/master/doc/Math.md">Math</a><br>
-  <a href="https://github.com/EtherCD/EasyScript/blob/master/doc/Sys.md">Sys</a>
-  <h1>Syntaxis</h1>
 </div>
+
+## API Documentaton
+>[Introduction](https://github.com/EtherCD/EasyScript/blob/master/doc/Introduction.md)
+
+# Syntaxis
 
   ```es
   const pi = 3.145
