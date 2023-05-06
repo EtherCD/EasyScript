@@ -91,11 +91,21 @@ namespace EasyScript.parser
             {
                 return functionCreate();
             }
+            if (match(TokenType.IMPORT))
+            {
+                return importStatement();
+            }
             if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LPAREN)
             {
                 return new FunctionStatement(functionExpression());
             }
             return assignmentStatement();
+        }
+
+        private Statement importStatement()
+        {
+            Token tk = consume(TokenType.TEXT);
+            return new ImportStatement(tk);
         }
 
         private Statement doWhileStatement()
@@ -169,13 +179,18 @@ namespace EasyScript.parser
             return function;
         }
 
-        private Expression element()
+        private ArrayAccessExpression element()
         {
             Token variable = consume(TokenType.WORD);
-            consume(TokenType.LBRACKET);
-            Expression index = expression();
-            consume(TokenType.RBRACKET);
-            return new ArrayAcessExpression(variable, index);
+            List<Expression> indices = new List<Expression>();
+            while (get(0).getType() == TokenType.LBRACKET)
+            {
+                consume(TokenType.LBRACKET);
+                indices.Add(expression());
+                consume(TokenType.RBRACKET);
+            }
+                
+            return new ArrayAccessExpression(variable, indices);
         }
 
         private Expression array()
@@ -214,12 +229,10 @@ namespace EasyScript.parser
             }
             if (get(0).getType() == TokenType.WORD && get(1).getType() == TokenType.LBRACKET)
             {
-                Token variable = consume(TokenType.WORD);
-                consume(TokenType.LBRACKET);
-                Expression index = expression();
-                consume(TokenType.RBRACKET);
+                Token variable = get(0);
+                ArrayAccessExpression array = element();
                 consume(TokenType.EQ);
-                return new ArrayAssignmentStatement(variable.getValue(), index, expression(), variable);
+                return new ArrayAssignmentStatement(variable, array, expression());
             }
             throw new ParseError("Unknown Statement", get(0));
         }

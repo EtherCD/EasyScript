@@ -43,7 +43,7 @@ namespace EasyScript.lib.libs
             {
                 throw new Exception("The eval method has only one argument.");
             }
-            Program.Eval(args[0].asString());
+            ES.Eval(args[0].asString());
             return new BooleanValue(false);
         }
     }
@@ -62,7 +62,7 @@ namespace EasyScript.lib.libs
                 Variables.Clear();
                 Functions.Stack();
                 string code = File.ReadAllText(args[0].asString());
-                Program.Eval(code);
+                ES.Eval(code);
                 Variables.Push();
                 Functions.Push();
             }

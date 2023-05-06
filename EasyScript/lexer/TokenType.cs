@@ -16,6 +16,7 @@
         BREAK,
         NEXT,
         FOR,
+        IMPORT,
 
         FUNC,
 

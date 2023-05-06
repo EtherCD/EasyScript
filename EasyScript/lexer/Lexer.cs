@@ -52,6 +52,7 @@ namespace EasyScript.lexer
             this.TokenKeys.Add("next", TokenType.NEXT);
             this.TokenKeys.Add("for", TokenType.FOR);
             this.TokenKeys.Add("func", TokenType.FUNC);
+            this.TokenKeys.Add("import", TokenType.IMPORT);
 
         }
 

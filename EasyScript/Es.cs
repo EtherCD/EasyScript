@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace EasyScript
 {
-    internal class Program
+    public class ES
     {
 
         public static void Eval(String code)
@@ -25,7 +25,7 @@ namespace EasyScript
             }
         }
 
-        static void Main(string[] args)
+        /*static void Main(string[] args)
         {
             Console.WriteLine("Welcome to EasyScript Interpreter");
             while (true)
@@ -33,6 +33,6 @@ namespace EasyScript
                 var text = Console.ReadLine();
                 Eval(text);
             }
-        }
+        }*/
     }
 }

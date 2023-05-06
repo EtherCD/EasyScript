@@ -8,33 +8,22 @@ namespace EasyScript.ast.statements
 {
     internal class ArrayAssignmentStatement : Statement
     {
-        private String variable;
-        private Expression index;
-        private Expression exrp;
+        private ArrayAccessExpression array;
+        private Expression expr;
         private Token myToken;
 
-        public ArrayAssignmentStatement(string variable, Expression index, Expression exrp, Token token)
+        public ArrayAssignmentStatement(Token token, ArrayAccessExpression array, Expression expr)
         {
-            this.variable = variable;
-            this.index = index;
-            this.exrp = exrp;
+            this.array = array;
             this.myToken= token;
+            this.expr = expr;
         }
 
         public void execute()
         {
-            Value var = Variables.get(variable);
             try
             {
-                if (var.GetType() == typeof(ArrayValue))
-                {
-                    ArrayValue val = (ArrayValue)var;
-                    val.set((int)index.eval().asDouble(), exrp.eval());
-                }
-                else
-                {
-                    throw new RuntimeError("Array expected", myToken);
-                }
+                array.getArray().set(array.getIndex(), expr.eval());
             } catch (Exception e)
             {
                 throw new RuntimeError(e.Message, myToken);
